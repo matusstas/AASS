@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  microservice_1:
+    build:
+      context: ./microservice_1
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:80
