@@ -1,137 +1,103 @@
 const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
 
-const Doctor = require('./models/doctor');
 const Drug = require('./models/drug');
-const Patient = require('./models/patient');
 const Recept = require('./models/recept');
 
 seedDrugs();
-seedDoctors();
-seedPatients();
-// seedRecepts();
+seedRecepts();
 
 function seedDrugs() {
     const drugs = [
         {
-            "_id": new ObjectId(0),
+            "_id": new ObjectId("000000027d35d3f07f2a5019"),
             "name": "Risperidone",
             "description": "An antipsychotic",
-            "manufacturer": "Janssen",
-            "price": 12.99,
-            "amount": 100
+            "manufacturer": "Janssen"
         },
         {
-            "_id": new ObjectId(1),
+            "_id": new ObjectId("000000067d35d3f07f2a501d"),
             "name": "Ibuprofen",
             "description": "A pain reliever",
-            "manufacturer": "Pfizer",
-            "price": 5.99,
-            "amount": 100
+            "manufacturer": "Pfizer"
         },
         {
-            "_id": new ObjectId(2),
+            "_id": new ObjectId("000000097d35d3f07f2a5020"),
             "name": "Paracetamol",
             "description": "A fever reducer",
-            "manufacturer": "Johnson & Johnson",
-            "price": 3.99,
-            "amount": 100
+            "manufacturer": "Johnson & Johnson"
         },
         {
-            "_id": new ObjectId(3),
+            "_id": new ObjectId("000000007d35d3f07f2a5017"),
             "name": "Aspirin",
             "description": "A blood thinner",
-            "manufacturer": "Bayer",
-            "price": 2.99,
-            "amount": 100
+            "manufacturer": "Bayer"
         },
         {
-            "_id": new ObjectId(4),
+            "_id": new ObjectId("000000017d35d3f07f2a5018"),
             "name": "Acetaminophen",
             "description": "A pain reliever",
-            "manufacturer": "Tylenol",
-            "price": 4.99,
-            "amount": 100
+            "manufacturer": "Tylenol"
         },
         {
-            "_id": new ObjectId(5),
+            "_id": new ObjectId("000000037d35d3f07f2a501a"),
             "name": "Naproxen",
             "description": "A pain reliever",
-            "manufacturer": "Aleve",
-            "price": 6.99,
-            "amount": 100
+            "manufacturer": "Aleve"
         },
         {
-            "_id": new ObjectId(6),
+            "_id": new ObjectId("000000087d35d3f07f2a501f"),
             "name": "Loratadine",
             "description": "An antihistamine",
-            "manufacturer": "Claritin",
-            "price": 8.99,
-            "amount": 100
+            "manufacturer": "Claritin"
         },
         {
-            "_id": new ObjectId(7),
+            "_id": new ObjectId("000000057d35d3f07f2a501c"),
             "name": "Ranitidine",
             "description": "An acid reducer",
-            "manufacturer": "Zantac",
-            "price": 7.99,
-            "amount": 100
+            "manufacturer": "Zantac"
         },
         {
-            "_id": new ObjectId(8),
+            "_id": new ObjectId("0000000a7d35d3f07f2a5021"),
             "name": "Omeprazole",
             "description": "A proton pump inhibitor",
-            "manufacturer": "Prilosec",
-            "price": 9.99,
-            "amount": 100
+            "manufacturer": "Prilosec"
         },
         {
-            "_id": new ObjectId(9),
+            "_id": new ObjectId("0000000c7d35d3f07f2a5023"),
             "name": "Simvastatin",
             "description": "A cholesterol-lowering drug",
-            "manufacturer": "Zocor",
-            "price": 11.99,
-            "amount": 100
+            "manufacturer": "Zocor"
         },
         {
-            "_id": new ObjectId(10),
+            "_id": new ObjectId("0000000d7d35d3f07f2a5024"),
             "name": "Metformin",
             "description": "A diabetes medication",
-            "manufacturer": "Glucophage",
-            "price": 12.99,
-            "amount": 100
+            "manufacturer": "Glucophage"
         },
         {
-            "_id": new ObjectId(11),
+            "_id": new ObjectId("0000000e7d35d3f07f2a5025"),
             "name": "Amoxicillin",
             "description": "An antibiotic",
-            "manufacturer": "GSK",
-            "price": 7.99,
-            "amount": 100
+            "manufacturer": "GSK"
         },
         {
-            "_id": new ObjectId(12),
+            "_id": new ObjectId("000000047d35d3f07f2a501b"),
             "name": "Lisinopril",
             "description": "A blood pressure medication",
-            "manufacturer": "Merck",
-            "price": 5.99,
-            "amount": 100
+            "manufacturer": "Merck"
         },
         {
-            "_id": new ObjectId(13),
+            "_id": new ObjectId("000000077d35d3f07f2a501e"),
             "name": "Albuterol",
             "description": "A bronchodilator",
-            "manufacturer": "ProAir",
-            "price": 9.99,
-            "amount": 100
+            "manufacturer": "ProAir"
         },
         {
-            "_id": new ObjectId(14),
+            "_id": new ObjectId("0000000b7d35d3f07f2a5022"),
             "name": "Prednisone",
             "description": "A corticosteroid",
-            "manufacturer": "Mylan",
-            "price": 4.99,
-            "amount": 100
+            "manufacturer": "Mylan"
         }
     ];
 
@@ -145,114 +111,44 @@ function seedDrugs() {
     }
 }
 
-function seedDoctors() {
-    const doctors = [
-        {
-            "_id": new ObjectId(15),
-            "name": "John Doe",
-            "email": "johndoe@gmail.com",
-            "password": "0000",
-            "specialties": ["Cardiology", "Internal Medicine"],
-            "type": "doctor",
-        },
-        {
-            "_id": new ObjectId(16),
-            "name": "Jane Smith",
-            "email": "janesmith@gmail.com",
-            "password": "0000",
-            "specialties": ["Pediatrics", "Family Medicine"],
-            "type": "doctor"
-        },
-        {
-            "_id": new ObjectId(17),
-            "name": "Teddy Blue",
-            "email": "teddyblue@gmail.com",
-            "password": "0000",
-            "specialties": ["Oncology", "Hematology"],
-            "type": "doctor"
-        }
-    ];
-
-    try {
-        doctors.map(doctor => new Doctor(doctor).save())
-        console.log('Doctors seeded successfully');
-
-    } catch (error) {
-        console.error('Error seeding doctors:', error);
-        mongoose.connection.close();
-    }
-}
-
-function seedPatients() {
-    const patients = [
-        {
-            "_id": new ObjectId(18),
-            "name": "Alice Smith",
-            "email": "alicesmith@gmail.com",
-            "password": "0000",
-            "age": 30,
-            "bloodType": "O+",
-            "type": "patient"
-        },
-        {
-            "_id": new ObjectId(19),
-            "name": "Bob Johnson",
-            "email": "bobjohnson@gmail.com",
-            "password": "0000",
-            "age": 50,
-            "bloodType": "AB-",
-            "type": "patient"
-        },
-        {
-            "_id": new ObjectId(20),
-            "name": "Charlie Brown",
-            "email": "charliebrown@gmail.com",
-            "password": "0000",
-            "age": 25,
-            "bloodType": "B+",
-            "type": "patient"
-        }
-    ];
-
-    try {
-        patients.map(patient => new Patient(patient).save())
-        console.log('Patients seeded successfully');
-
-    } catch (error) {
-        console.error('Error seeding patients:', error);
-        mongoose.connection.close();
-    }
-}
-
 function seedRecepts() {
     const recepts = [
         {
-            "doctorId": new ObjectId('000000117d35d3f07f2a5037'),
-            "patientId": new ObjectId('000000127d35d3f07f2a503b'),
-            "drugIds": [
-                new ObjectId('000000027d35d3f07f2a5019'),
-                new ObjectId('000000067d35d3f07f2a501d'),
-            ],
-            "date": "2022-05-01T00:00:00Z"
+            "doctor": "Jon Doe",
+            "patient": "Alice Smith",
+            "state": "created",
+            "drugs": [
+                {
+                    "drugId": new ObjectId('000000027d35d3f07f2a5019'),
+                    "amount": 2
+                },
+                {
+                    "drugId": new ObjectId('000000067d35d3f07f2a501d'),
+                    "amount": 1
+                }
+            ]
         },
         {
-            "doctorId": new ObjectId('000000117d35d3f07f2a5037'),
-            "patientId": new ObjectId('000000147d35d3f07f2a503d'),
-            "drugIds": [
-                new ObjectId('000000097d35d3f07f2a5020'),
-                new ObjectId('000000007d35d3f07f2a5017'),
-            ],
-            "date": "2022-05-01T00:00:00Z"
+            "doctor": "Jon Doe",
+            "patient": "Charlie Brown",
+            "state": "created",
+            "drugs": [
+                {
+                    "drugId": new ObjectId('000000047d35d3f07f2a501b'),
+                    "amount": 1
+                }
+            ]
         },
         {
-            "doctorId": new ObjectId('000000107d35d3f07f2a5036'),
-            "patientId": new ObjectId('000000137d35d3f07f2a503c'),
-            "drugIds": [
-                new ObjectId('000000027d35d3f07f2a5019'),
-                new ObjectId('000000017d35d3f07f2a5018'),
-                new ObjectId('000000037d35d3f07f2a501a'),
-            ],
-            "date": "2022-05-01T00:00:00Z"
+            "doctor": "Jane Smith",
+            "patient": "Alice Smith",
+            "state": "created",
+            "drugs": [
+                {
+                    "drugId": new ObjectId('000000017d35d3f07f2a5018'),
+                    "amount": 1
+                }
+            ]
         }
     ];
 
