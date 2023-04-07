@@ -42,6 +42,8 @@ router.put('/recepts/:receptId', async (req, res) => {
     const { receptId } = req.params;
     const { update } = req.body;
 
+    console.log(receptId);
+
     try {
         const recept = await Recept.findById(receptId);
         if (!recept) {
