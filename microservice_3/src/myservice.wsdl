@@ -1,0 +1,43 @@
+<definitions name="HelloService" targetNamespace="http://www.examples.com/wsdl/HelloService.wsdl" 
+  xmlns="http://schemas.xmlsoap.org/wsdl/" 
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+  xmlns:tns="http://www.examples.com/wsdl/HelloService.wsdl" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <message name="orderRequest">
+    <part name="pharmacyName" type="xsd:string"/>
+    <part name="drugName" type="xsd:string"/>
+    <part name="amount" type="xsd:float"/>
+  </message>
+
+  <message name="orderResponse">
+    <part name="state" type="xsd:string"/>
+  </message>
+
+  <portType name="Hello_PortType">
+    <operation name="makeOrder">
+      <input message="tns:orderRequest"/>
+      <output message="tns:orderResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="Hello_Binding" type="tns:Hello_PortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="makeOrder">
+      <soap:operation soapAction="makeOrder"/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:helloservice" use="encoded"/>
+      </input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:examples:helloservice" use="encoded"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="My_Service">
+    <documentation>WSDL File for HelloService</documentation>
+    <port binding="tns:Hello_Binding" name="My_Port">
+      <soap:address location="http://127.0.0.1:3002/order" />
+    </port>
+  </service>
+</definitions>
