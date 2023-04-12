@@ -8,13 +8,18 @@ const router = express.Router();
 
 
 router.post('/recepts', async (req, res) => {
-    const { receptData } = req.body;
+    const receptData = req.body;
+
+    console.log(receptData);
+    receptData["state"] = "created";
+    console.log(receptData);
+
 
     const newRecept = new Recept(receptData);
 
     try {
         const insertedRecept = await newRecept.save();
-        res.status(201).json(savedRecept);
+        res.status(201).json(insertedRecept);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
@@ -58,6 +63,17 @@ router.put('/recepts/:receptId', async (req, res) => {
             res.status(500).json({ error: 'Server error' });
         }
 
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+
+router.get('/drugs', async (req, res) => {
+    try {
+        const drugs = await Drug.find();
+        res.status(200).json(drugs);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
