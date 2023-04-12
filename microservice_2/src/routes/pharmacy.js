@@ -4,7 +4,7 @@ const Pharmacy = require('../models/pharmacy');
 
 const router = express.Router();
 
-router.get('/pharmacy/availability', async (req, res) => {
+router.put('/pharmacy/availability', async (req, res) => {
     const { recipe } = req.body;
     console.log(recipe);
 
@@ -13,9 +13,10 @@ router.get('/pharmacy/availability', async (req, res) => {
             return { "drugs.drug.name": element.name, "drugs.amount": { $gte: element.amount } };
         });
 
-        let res = await Pharmacy.find().populate({ path: "drugs.drug", match: { $or: drugs } })
+        let result = await Pharmacy.find().populate({ path: "drugs.drug", match: { $or: drugs } })
+        console.log(result)
 
-        res.json({ pharamcies: res });
+        res.json({ pharmacies: result });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });

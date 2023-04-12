@@ -1,9 +1,9 @@
 'use strict';
 const express = require('express');
-// require('./database.js');
+require('./database.js');
 
 const pharmacy = require('./routes/pharmacy.js')
-// const seed = require('./seed.js'); seeeding needs more work
+// const seed = require('./seed.js'); //seeeding needs more work
 
 const app = express();
 const PORT = process.env.PORT || 3001; // 3001 is for development without docker 

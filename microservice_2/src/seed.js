@@ -60,6 +60,8 @@ function seed() {
             })            
         })
 
+        p.forEach(pharmacy => pharmacy.save())
+        d.forEach(drug => drug.save())
         console.log('seeded successfully');
 
     } catch (error) {
