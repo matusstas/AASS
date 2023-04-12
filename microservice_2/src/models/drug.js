@@ -20,13 +20,8 @@ const DrugSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 0
-    },
-    amount: {
-        type: Number,
-        required: true,
-        min: 0
-    },
-    pharmacyIds:[{
+    },    
+    pharmacy:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Pharmacy',
     }],
