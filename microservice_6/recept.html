@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font-awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>E-recept</title>
+</head>
+
+<body>
+    <!-- Option 2: jQuery, Separate Popper and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/recepts">Recept</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/todo">todo</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-2">
+        <form id="addReceiptForm">
+            <!-- Doctor Field -->
+            <div class="form-group py-2">
+                <label for="doctor">Doctor</label>
+                <input type="text" class="form-control" id="doctor" name="doctor" required>
+            </div>
+            <!-- Patient Field -->
+            <div class="form-group py-2">
+                <label for="patient">Patient</label>
+                <input type="text" class="form-control" id="patient" name="patient" required>
+
+            </div>
+            <!-- Drugs Field -->
+
+            <div class="form-group py-2">
+                <label for="drugs">Drugs</label>
+                <div id="drugsContainer">
+                </div>
+                <button type="button" class="btn btn-primary mt-2" id="addDrugBtn">Add</button>
+            </div>
+            <button id="submitBtn" type="button" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+</body>
+<script>
+    // Load drugs
+    var options = "";
+    $.ajax({
+        url: 'http://localhost:3001/api/drugs',
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (drugs) {
+            // Handle success response
+            drugs.forEach(function (drug, index) {
+                var drugId = drug["_id"];
+                var drugName = drug["name"];
+                options += '<option value="' + drugId + '">' + drugName + '</option>';
+            });
+        },
+        error: function (xhr, status, error) {
+            // Handle error response
+            console.error(error);
+        }
+    });
+
+    // Add new drug row dynamically
+    var i = 0;
+    $('#addDrugBtn').on('click', function () {
+        let drugRow = $('<div class="row drug-row pb-2"><div class="col-2"><select class="form-control form-control" id="' + i + '" required>' + options + '</select></div><div class="col-1"><input type="number" class="form-control" name="drugs[' + i + '][amount]" min="0" value="1" required></div><div class="col"><button type="button" class="btn btn-danger delete-drug-btn">Delete</button></div></div>');
+        $('#drugsContainer').append(drugRow);
+        i += 1;
+    });
+
+    // Delete drug row
+    $(document).on('click', '.delete-drug-btn', function () {
+        $(this).closest('.drug-row').remove();
+        i -= 1;
+    });
+
+
+    // Add recept
+    $('#submitBtn').on('click', function () {
+        var doctor = $('#doctor').val();
+        var patient = $('#patient').val();
+
+        var drugsDict = {};
+        $('#drugsContainer .drug-row').each(function (index) {
+            var selectElement = document.getElementById(index); // Get the select element
+            var drugId = selectElement.value; // Get the selected value
+            var drugAmount = $(this).find('input[name="drugs[' + index + '][amount]"]').val();
+
+            if (drugsDict.hasOwnProperty(drugId)) {
+                drugsDict[drugId] += parseInt(drugAmount);
+            } else {
+                drugsDict[drugId] = parseInt(drugAmount);
+            }
+        });
+
+        var drugsArray = [];
+        for (const [drugId, drugAmount] of Object.entries(drugsDict)) {
+            var drug = {
+                drugId: drugId,
+                amount: drugAmount
+            };
+            drugsArray.push(drug);
+        }
+
+        data = {
+            "doctor": doctor,
+            "patient": patient,
+            "drugs": drugsArray,
+            "state": "created"
+        }
+
+        $.ajax({
+            url: 'http://localhost:3001/api/recepts',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                // Handle error response
+                console.error(error);
+            }
+        });
+    });
+</script>
+
+</html>
