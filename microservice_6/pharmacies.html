@@ -47,6 +47,7 @@
     </nav>
 
     <div class="container mt-2">
+        <h1 id="state" class="pb-2"></h1>
         <ul id="pharmaciesList">
             <!-- Pharmacies will be dynamically inserted here -->
         </ul>
@@ -78,13 +79,25 @@
                 success: function (response) {
                     const pharmaciesListElement = document.getElementById('pharmaciesList');
                     for (const pharmacy of response.pharmacies) {
-                        const pharmacyItemElement = document.createElement('li');
-                        pharmacyItemElement.innerHTML = `
+                        var pharmacyItemElement;
+
+                        if (recept.state === "created") {
+                            var stateDiv = document.getElementById("state");
+                            stateDiv.style.color = "red";
+                            stateDiv.textContent = "Recept ešte nie je rezervovaný";
+
+                            pharmacyItemElement = document.createElement('li');
+                            pharmacyItemElement.innerHTML = `
                             <strong>Name:</strong> ${pharmacy.name}<br>
                             <strong>Address:</strong> ${pharmacy.address}<br>
                             <button type="button" class="btn btn-sm btn-primary mt-2" value="${pharmacy._id}" onclick="reserve(this.value)">Rezervovať</button>
                             <hr>`;
-                        pharmaciesListElement.appendChild(pharmacyItemElement);
+                            pharmaciesListElement.appendChild(pharmacyItemElement);
+                        } else {
+                            var stateDiv = document.getElementById("state");
+                            stateDiv.style.color = "green";
+                            stateDiv.textContent = "Recept je rezervovaný";
+                        }
                     }
                 },
                 error: function (xhr, status, error) {
@@ -121,7 +134,27 @@
                     data: JSON.stringify(data),
                     contentType: 'application/json',
                     success: function (response) {
-                        confirm("Recept bol rezervovaný");
+
+                        var data = {
+                            "update": {
+                                "state": "reserved"
+                            }
+                        }
+                        $.ajax({
+                            url: 'http://localhost:3000/api/recepts/' + receptId,
+                            type: 'PUT',
+                            dataType: 'json',
+                            data: JSON.stringify(data),
+                            contentType: 'application/json',
+                            success: function (response) {
+                                location.reload();
+
+                            },
+                            error: function (xhr, status, error) {
+                                // Handle error response
+                                console.error(error);
+                            }
+                        });
                     },
                     error: function (xhr, status, error) {
                         // Handle error response
