@@ -1,11 +1,8 @@
 'use strict';
 
 const express = require('express');
-const axios = require('axios');
 const bodyParser = require('body-parser');
 const path = require('path');
-const fs = require('fs');
-let ejs = require('ejs')
 var cors = require('cors')
 
 const app = express();
