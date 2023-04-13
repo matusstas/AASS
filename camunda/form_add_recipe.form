@@ -1,0 +1,52 @@
+{
+  "components": [
+    {
+      "label": "Doctor",
+      "type": "textfield",
+      "id": "Field_0odchaj",
+      "key": "doctor"
+    },
+    {
+      "label": "Patient",
+      "type": "textfield",
+      "id": "Field_19ha7a1",
+      "key": "patient"
+    },
+    {
+      "label": "Drug1",
+      "type": "select",
+      "id": "Field_1iavfh3",
+      "key": "drug1",
+      "valuesKey": "",
+      "defaultValue": "<none>"
+    },
+    {
+      "label": "Amount1",
+      "type": "number",
+      "id": "Field_1gt67ec",
+      "key": "amount1"
+    },
+    {
+      "label": "Drug2",
+      "type": "select",
+      "id": "Field_1ae9tih",
+      "key": "drug2",
+      "valuesKey": ""
+    },
+    {
+      "label": "Amount2",
+      "type": "number",
+      "id": "Field_1o9b5tt",
+      "key": "amount2"
+    }
+  ],
+  "type": "default",
+  "id": "add-recipe",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.9.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 7
+}
