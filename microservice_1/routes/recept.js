@@ -50,7 +50,7 @@ router.put('/recepts/:receptId', async (req, res) => {
     console.log(receptId);
 
     try {
-        const recept = await Recept.findById(receptId);
+        const recept = await Recept.findById(receptId).populate("drugs.drugId");
         if (!recept) {
             return res.status(404).json({ message: 'Recept not found' });
         }
@@ -74,6 +74,17 @@ router.get('/drugs', async (req, res) => {
     try {
         const drugs = await Drug.find();
         res.status(200).json(drugs);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
+
+
+router.get('/recepts', async (req, res) => {
+    try {
+        const recepts = await Recept.find().populate("drugs.drugId");
+        res.status(200).json(recepts);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });

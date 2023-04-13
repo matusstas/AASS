@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font-awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>E-recept</title>
+</head>
+
+<body>
+    <!-- Option 2: jQuery, Separate Popper and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/recept">Create Recept</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/recepts">Show Recepts</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-2">
+        <ul id="pharmaciesList">
+            <!-- Pharmacies will be dynamically inserted here -->
+        </ul>
+    </div>
+
+
+</body>
+<script>
+
+    // get receptId from url
+    const url = window.location.href;
+    const parts = url.split('/');
+    const receptId = parts[parts.length - 1];
+
+    $.ajax({
+        url: 'http://localhost:3000/api/recepts/' + receptId,
+        type: 'GET',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (recept) {
+            // Handle success response
+
+            $.ajax({
+                url: 'http://localhost:3001/api/pharmacy/availability',
+                type: 'PUT',
+                dataType: 'json',
+                data: JSON.stringify(recept),
+                contentType: 'application/json',
+                success: function (response) {
+                    const pharmaciesListElement = document.getElementById('pharmaciesList');
+                    for (const pharmacy of response.pharmacies) {
+                        const pharmacyItemElement = document.createElement('li');
+                        pharmacyItemElement.innerHTML = `
+                            <strong>Name:</strong> ${pharmacy.name}<br>
+                            <strong>Address:</strong> ${pharmacy.address}<br>
+                            <button type="button" class="btn btn-sm btn-primary mt-2" value="${pharmacy._id}" onclick="reserve(this.value)">Rezervovať</button>
+                            <hr>`;
+                        pharmaciesListElement.appendChild(pharmacyItemElement);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.error(error);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            // Handle error response
+            console.error(error);
+        }
+    });
+
+    function reserve(pharmacyId) {
+        // console.log(pharmacyId);
+        // console.log(receptId)
+
+        $.ajax({
+            url: 'http://localhost:3000/api/recepts/' + receptId,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (recipe) {
+                var data = {
+                    pharmacyId: pharmacyId,
+                    recipe: recipe
+                }
+
+                $.ajax({
+                    url: 'http://localhost:3001/api/pharmacy/reserve',
+                    type: 'PUT',
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        confirm("Recept bol rezervovaný");
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        console.error(error);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                // Handle error response
+                console.error(error);
+            }
+        });
+    }
+</script>
+
+</html>

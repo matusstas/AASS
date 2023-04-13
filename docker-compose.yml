@@ -19,9 +19,9 @@ services:
       # ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
 
-  microservice_1:
-    build:
-      context: ./microservice_1
-      dockerfile: ./Dockerfile
-    ports:
-      - 8080:80
+  # microservice_1:
+  #   build:
+  #     context: ./microservice_1
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - 8080:80

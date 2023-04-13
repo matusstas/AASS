@@ -1,12 +1,12 @@
 const express = require('express');
 
 const Pharmacy = require('../models/pharmacy');
+const Drug = require('../models/drug');
 
 const router = express.Router();
 
 router.put('/pharmacy/availability', async (req, res) => {
-    const { recipe } = req.body;
-    console.log(recipe);
+    const recipe  = req.body;
 
     try {
         let drugs = recipe.drugs.map(element => {
@@ -14,7 +14,6 @@ router.put('/pharmacy/availability', async (req, res) => {
         });
 
         let result = await Pharmacy.find().populate({ path: "drugs.drug", match: { $or: drugs } })
-        console.log(result)
 
         res.json({ pharmacies: result });
     } catch (error) {
@@ -26,12 +25,15 @@ router.put('/pharmacy/availability', async (req, res) => {
 router.put('/pharmacy/reserve', async (req, res) => {
     const { pharmacyId, recipe } = req.body;
 
+    console.log(pharmacyId);
+    console.log(recipe);
+
     try {
 
-        let pharmacy = await Pharmacy.findById(pharmacyId).populate("drugs.drug")
+        let pharmacy = await Pharmacy.findById(pharmacyId).populate("drugs.drug");
         recipe.drugs.forEach(recipedrug => {
             pharmacy.drugs.forEach(pharmacydrug => {
-                if (recipedrug.name === pharmacydrug.drug.name) {
+                if (recipedrug.drugId === pharmacydrug.drug._id.toString()) {
                     pharmacydrug.amount -= recipedrug.amount
                     pharmacydrug.reserved += recipedrug.amount
                 }
@@ -39,8 +41,7 @@ router.put('/pharmacy/reserve', async (req, res) => {
         })
 
         pharmacy.save()
-
-        res.send("reserved");
+        res.json({ "status": "reserved" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });
@@ -54,7 +55,7 @@ router.put('/pharmacy/remove', async (req, res) => {
         let pharmacy = await Pharmacy.findById(pharmacyId).populate("drugs.drug")
         recipe.drugs.forEach(recipedrug => {
             pharmacy.drugs.forEach(pharmacydrug => {
-                if (recipedrug.name === pharmacydrug.drug.name) {
+                if (recipedrug.drugId === pharmacydrug.drug._id.toString()) {
                     pharmacydrug.reserved -= recipedrug.amount
                 }
             })

@@ -19,10 +19,17 @@ app.get('/', (req, res) => {
    res.send('Hello from Microservice 6');
 })
 
-app.get('/recepts', (req, res) => {
+app.get('/recept', (req, res) => {
    res.sendFile(path.join(__dirname, '/recept.html'));
 })
 
+app.get('/recepts', (req, res) => {
+   res.sendFile(path.join(__dirname, '/recepts.html'));
+})
+
+app.get('/pharmacies/:receptId', (req, res) => {
+   res.sendFile(path.join(__dirname, '/pharmacies.html'));
+})
 
 
 app.listen(PORT, HOST, () => {
