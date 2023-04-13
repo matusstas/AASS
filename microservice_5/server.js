@@ -3,11 +3,13 @@
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+var cors = require('cors')
 
 const app = express();
 const PORT = process.env.PORT || 3004; // 3004 is for development without docker 
 const HOST = "0.0.0.0";
 
+app.use(cors())
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
@@ -16,12 +18,11 @@ app.get('/', (req, res) => {
 
 app.put('/api/recepts/:receptId', (req, res) => {
    const { receptId } = req.params;
-   const { state } = req.body;
 
-   // todo na reserved
    var data = {
       "update": {
-         "state": state
+         "pharmacyId": req.body["pharmacyId"],
+         "state": req.body["state"]
       }
    }
 

@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const app = express();
 const PORT = process.env.PORT || 3003; // 3003 is for development without docker 
 const HOST = "0.0.0.0";
+var cors = require('cors')
+app.use(cors())
 
 app.use(bodyParser.json());
 app.use("/api", expedition);

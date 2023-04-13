@@ -25,9 +25,6 @@ router.put('/pharmacy/availability', async (req, res) => {
 router.put('/pharmacy/reserve', async (req, res) => {
     const { pharmacyId, recipe } = req.body;
 
-    console.log(pharmacyId);
-    console.log(recipe);
-
     try {
 
         let pharmacy = await Pharmacy.findById(pharmacyId).populate("drugs.drug");
@@ -49,10 +46,10 @@ router.put('/pharmacy/reserve', async (req, res) => {
 });
 
 router.put('/pharmacy/remove', async (req, res) => {
-    const { pharmacyId, recipe } = req.body;
+    const { recipe } = req.body;
 
     try {
-        let pharmacy = await Pharmacy.findById(pharmacyId).populate("drugs.drug")
+        let pharmacy = await Pharmacy.findById(recipe["pharmacyId"]).populate("drugs.drug")
         recipe.drugs.forEach(recipedrug => {
             pharmacy.drugs.forEach(pharmacydrug => {
                 if (recipedrug.drugId === pharmacydrug.drug._id.toString()) {
@@ -62,8 +59,7 @@ router.put('/pharmacy/remove', async (req, res) => {
         })
 
         pharmacy.save()
-
-        res.send("removed");
+        res.json({ "status": "removed" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error' });

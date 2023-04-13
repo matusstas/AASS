@@ -31,6 +31,10 @@ app.get('/pharmacies/:receptId', (req, res) => {
    res.sendFile(path.join(__dirname, '/pharmacies.html'));
 })
 
+app.get('/expedition', (req, res) => {
+   res.sendFile(path.join(__dirname, '/expedition.html'));
+})
+
 
 app.listen(PORT, HOST, () => {
    console.log(`Microservice 6 is running on http://${HOST}:${PORT}`);

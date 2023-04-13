@@ -41,6 +41,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/recepts">Show Recepts</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/expedition">Take out Recepts</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -75,6 +78,7 @@
                     ${recept.drugs.map(drug => `<li>${drug.drugId.name} (${drug.amount})</li>`).join('')}
                 </ul>
                 <a class="btn btn-sm btn-primary my-2" href="/pharmacies/${recept._id}" role="button">Dostupné lekárne</a>
+                <span class="badge badge-pill badge-dark py-1">${recept.state}</span>
                 <hr>
             `;
                 receptsListElement.appendChild(receptItemElement);

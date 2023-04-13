@@ -16,6 +16,10 @@ const ReceptSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    pharmacyId: {
+        type: String,
+        trim: true
+    },
     drugs: [{
         drugId: {
             type: mongoose.Schema.Types.ObjectId,
