@@ -4,12 +4,12 @@
       "label": "Pharmacy",
       "type": "select",
       "id": "Field_1h9emdy",
-      "key": "pharmacy",
-      "valuesKey": ""
+      "key": "pharmacyID",
+      "valuesKey": "pharmacies"
     }
   ],
   "type": "default",
-  "id": "Form_16yvp5t",
+  "id": "choose-phamacy",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.9.0"

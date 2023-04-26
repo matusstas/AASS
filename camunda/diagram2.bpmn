@@ -5,61 +5,19 @@
       <bpmn:outgoing>Flow_1r8eus9</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:endEvent id="Event_03ts3od" name="Recept vydaný">
-      <bpmn:incoming>Flow_0g09urm</bpmn:incoming>
+      <bpmn:incoming>Flow_0c8udyt</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:userTask id="Activity_15pepmr" name="Výber lekárne a rezervácia liekov" camunda:assignee="demo">
-      <bpmn:incoming>Flow_0lvfkx9</bpmn:incoming>
-      <bpmn:outgoing>Flow_010p73d</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:userTask id="Activity_0bzy9ce" name="Výdaj lieku v lekárni" camunda:assignee="demo">
-      <bpmn:extensionElements />
-      <bpmn:incoming>Flow_0seohfs</bpmn:incoming>
-      <bpmn:outgoing>Flow_1cud34w</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_0j8lrt4" name="Aktualizácia zásob liekov a stavu receptu" camunda:type="external" camunda:topic="expedite">
-      <bpmn:extensionElements />
-      <bpmn:incoming>Flow_1cud34w</bpmn:incoming>
-      <bpmn:outgoing>Flow_0g09urm</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0g09urm" sourceRef="Activity_0j8lrt4" targetRef="Event_03ts3od" />
     <bpmn:sequenceFlow id="Flow_1r8eus9" sourceRef="StartEvent_1" targetRef="Activity_1sgxu5x" />
     <bpmn:sequenceFlow id="Flow_0m8hgmf" sourceRef="Activity_1sgxu5x" targetRef="Activity_173cfva" />
-    <bpmn:serviceTask id="Activity_1sgxu5x" name="Získanie predpísateľnýc liekov">
+    <bpmn:serviceTask id="Activity_1sgxu5x" name="Získanie predpísateľnýc liekov" camunda:type="external" camunda:topic="getDrugs">
       <bpmn:incoming>Flow_1r8eus9</bpmn:incoming>
       <bpmn:outgoing>Flow_0m8hgmf</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_0frxw6c" name="Uloženie nového receptu" camunda:type="external" camunda:topic="">
-      <bpmn:incoming>Flow_0020gyz</bpmn:incoming>
-      <bpmn:outgoing>Flow_10663w4</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:userTask id="Activity_173cfva" name="Lekár vypíše recept" camunda:formRef="add-recipe" camunda:formRefBinding="latest">
+    <bpmn:userTask id="Activity_173cfva" name="Lekár vypíše recept" camunda:formRef="add-recipe" camunda:formRefBinding="latest" camunda:assignee="demo">
       <bpmn:incoming>Flow_0m8hgmf</bpmn:incoming>
-      <bpmn:outgoing>Flow_0020gyz</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0c8udyt</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_0020gyz" sourceRef="Activity_173cfva" targetRef="Activity_0frxw6c" />
-    <bpmn:serviceTask id="Activity_1jh4qiy" name="Získanie mojich receptov">
-      <bpmn:incoming>Flow_10663w4</bpmn:incoming>
-      <bpmn:outgoing>Flow_0cl6hqj</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_10663w4" sourceRef="Activity_0frxw6c" targetRef="Activity_1jh4qiy" />
-    <bpmn:sequenceFlow id="Flow_1cud34w" sourceRef="Activity_0bzy9ce" targetRef="Activity_0j8lrt4" />
-    <bpmn:userTask id="Activity_12c1zdw" name="Výber receptu">
-      <bpmn:incoming>Flow_0cl6hqj</bpmn:incoming>
-      <bpmn:outgoing>Flow_1n1925u</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_09l1xd0" name="Overenie dostupnosti liekov v lekárňach">
-      <bpmn:incoming>Flow_1n1925u</bpmn:incoming>
-      <bpmn:outgoing>Flow_0lvfkx9</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0cl6hqj" sourceRef="Activity_1jh4qiy" targetRef="Activity_12c1zdw" />
-    <bpmn:sequenceFlow id="Flow_1n1925u" sourceRef="Activity_12c1zdw" targetRef="Activity_09l1xd0" />
-    <bpmn:sequenceFlow id="Flow_0lvfkx9" sourceRef="Activity_09l1xd0" targetRef="Activity_15pepmr" />
-    <bpmn:serviceTask id="Activity_0drtjni" name="Rezervácia receptu">
-      <bpmn:incoming>Flow_010p73d</bpmn:incoming>
-      <bpmn:outgoing>Flow_0seohfs</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_010p73d" sourceRef="Activity_15pepmr" targetRef="Activity_0drtjni" />
-    <bpmn:sequenceFlow id="Flow_0seohfs" sourceRef="Activity_0drtjni" targetRef="Activity_0bzy9ce" />
+    <bpmn:sequenceFlow id="Flow_0c8udyt" sourceRef="Activity_173cfva" targetRef="Event_03ts3od" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="erecept">
@@ -72,87 +30,26 @@
       <bpmndi:BPMNShape id="Activity_1hx9k6u_di" bpmnElement="Activity_1sgxu5x">
         <dc:Bounds x="290" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0koa5dm_di" bpmnElement="Activity_0frxw6c">
-        <dc:Bounds x="620" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_03soxgo_di" bpmnElement="Activity_173cfva">
         <dc:Bounds x="460" y="77" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_01n3moy_di" bpmnElement="Activity_1jh4qiy">
-        <dc:Bounds x="780" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ahfdwa_di" bpmnElement="Activity_15pepmr">
-        <dc:Bounds x="1320" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_10qqswv_di" bpmnElement="Activity_12c1zdw">
-        <dc:Bounds x="950" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ykn7ox_di" bpmnElement="Activity_09l1xd0">
-        <dc:Bounds x="1130" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0mg2iu6_di" bpmnElement="Activity_0bzy9ce">
-        <dc:Bounds x="1630" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_16tddbq_di" bpmnElement="Activity_0j8lrt4">
-        <dc:Bounds x="1800" y="77" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_03ts3od_di" bpmnElement="Event_03ts3od">
-        <dc:Bounds x="1962" y="99" width="36" height="36" />
+        <dc:Bounds x="622" y="99" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1943" y="75" width="73" height="14" />
+          <dc:Bounds x="603" y="75" width="73" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1hr3qwn_di" bpmnElement="Activity_0drtjni">
-        <dc:Bounds x="1470" y="77" width="100" height="80" />
-        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1r8eus9_di" bpmnElement="Flow_1r8eus9">
         <di:waypoint x="218" y="117" />
         <di:waypoint x="290" y="117" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0g09urm_di" bpmnElement="Flow_0g09urm">
-        <di:waypoint x="1900" y="117" />
-        <di:waypoint x="1962" y="117" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0m8hgmf_di" bpmnElement="Flow_0m8hgmf">
         <di:waypoint x="390" y="117" />
         <di:waypoint x="460" y="117" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0020gyz_di" bpmnElement="Flow_0020gyz">
+      <bpmndi:BPMNEdge id="Flow_0c8udyt_di" bpmnElement="Flow_0c8udyt">
         <di:waypoint x="560" y="117" />
-        <di:waypoint x="620" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_10663w4_di" bpmnElement="Flow_10663w4">
-        <di:waypoint x="720" y="117" />
-        <di:waypoint x="780" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1cud34w_di" bpmnElement="Flow_1cud34w">
-        <di:waypoint x="1730" y="117" />
-        <di:waypoint x="1800" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0cl6hqj_di" bpmnElement="Flow_0cl6hqj">
-        <di:waypoint x="880" y="117" />
-        <di:waypoint x="950" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1n1925u_di" bpmnElement="Flow_1n1925u">
-        <di:waypoint x="1050" y="117" />
-        <di:waypoint x="1130" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0lvfkx9_di" bpmnElement="Flow_0lvfkx9">
-        <di:waypoint x="1230" y="117" />
-        <di:waypoint x="1320" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_010p73d_di" bpmnElement="Flow_010p73d">
-        <di:waypoint x="1420" y="117" />
-        <di:waypoint x="1470" y="117" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0seohfs_di" bpmnElement="Flow_0seohfs">
-        <di:waypoint x="1570" y="117" />
-        <di:waypoint x="1630" y="117" />
+        <di:waypoint x="622" y="117" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

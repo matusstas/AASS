@@ -94,8 +94,8 @@
     function remove(receptId) {
 
         $.ajax({
-            url: 'http://localhost:3004/api/recepts/' + receptId,
-            type: 'PUT',
+            url: 'http://localhost:3000/api/recepts/' + receptId,
+            type: 'GET',
             contentType: 'application/json',
             success: function (recept) {
                 // location.reload();

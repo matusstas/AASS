@@ -24,7 +24,7 @@ axios.put("http://127.0.0.1:3001/api/pharmacy/availability", data)
     .then((res) => {
         console.log(`Status: ${res.status}`);
         console.log('Body: ', res.data);
-		console.log('drugs1: ', res.data.pharamcies[0].drugs);
+		console.log('drugs1: ', res.data.pharmacies[0].drugs);
 
     }).catch((err) => {
         console.error(err);
