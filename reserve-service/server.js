@@ -18,16 +18,18 @@ app.get('/', (req, res) => {
 
 app.put('/api/recepts/:receptId', (req, res) => {
    const { receptId } = req.params;
-
+console.log(receptId)
    var data = {
       "update": {
          "pharmacyId": req.body["pharmacyId"],
          "state": req.body["state"]
       }
    }
-
-   axios.put(`http://localhost:3000/api/recepts/${receptId}`, data)
+   // console.log(receptId)
+   // console.log(data)
+   axios.put(`http://127.0.0.1:3000/api/recepts/${receptId}`, data)
       .then((data) => {
+         // console.log(data)
          return res.json(data["data"]);
       })
       .catch((err) => {

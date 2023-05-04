@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.put('/pharmacy/availability', async (req, res) => {
     const recipe  = req.body;
-
+    // console.log(recipe)
     try {
         let drugs = recipe.drugs.map(element => {
             return { "drugs.drug.name": element.name, "drugs.amount": { $gte: element.amount } };
@@ -46,8 +46,8 @@ router.put('/pharmacy/reserve', async (req, res) => {
 });
 
 router.put('/pharmacy/remove', async (req, res) => {
-    const { recipe } = req.body;
-
+    const  {recipe}  = req.body;
+    console.log(recipe)
     try {
         let pharmacy = await Pharmacy.findById(recipe["pharmacyId"]).populate("drugs.drug")
         recipe.drugs.forEach(recipedrug => {

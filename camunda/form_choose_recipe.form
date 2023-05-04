@@ -4,8 +4,8 @@
       "label": "Recipe",
       "type": "select",
       "id": "Field_0sw0pf7",
-      "key": "recipe",
-      "valuesKey": ""
+      "key": "recipeID",
+      "valuesKey": "recipes"
     }
   ],
   "type": "default",
